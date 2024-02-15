@@ -13,6 +13,5 @@ fi
 mkdir negpod_$negpod_id-q1
 
 # Move files to the directory
-mv main.sh students-list_1023.txt select-emails.sh student-emails.txt negpod_$negpod_id-q1
-
+mv ../main.sh ../students-list_1023.txt ../Select-emails.sh ../student-emails.txt "negpod_$negpod_id-q1"
 echo "Files moved successfully."
