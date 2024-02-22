@@ -53,7 +53,7 @@ update_student() {
       sed -i "s/$old_age/$new_age/" students-list_1023.txt
     fi
 
-    echo "Student updated successfully!"
+    echo "Student updated successfully."
   else
     echo "Error: Student with ID $id not found!"
   fi
