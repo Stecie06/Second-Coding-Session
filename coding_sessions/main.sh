@@ -19,7 +19,7 @@ view_students() {
   if [[ -f students-list_1023.txt ]]; then
     cat students-list_1023.txt | tr ',' ' '
   else
-    echo "No students found!"
+    echo "No students found."
   fi
 }
 
