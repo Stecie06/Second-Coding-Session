@@ -7,8 +7,8 @@ add_student() {
   read -p "Enter student age: " age
   read -p "Enter student ID: " id
 
-  if ! grep -q "$id" students-list_1023.txt; then
-    echo "$email,$age,$id" >> students-list_1023.txt
+  if ! grep -qE "^$id," students-list_1023.txt; then
+    echo "$id,$email,$age" >> students-list_1023.txt
     echo "Student added successfully!"
   else
     echo "Error: Student with ID $id already exists!"
@@ -17,7 +17,8 @@ add_student() {
 
 view_students() {
   if [[ -f students-list_1023.txt ]]; then
-    cat students-list_1023.txt | tr ',' ' '
+    echo -e "ID\tStudent Name\t\tAge"
+    cat students-list_1023.txt | tr ',' '	'
   else
     echo "No students found."
   fi
@@ -26,8 +27,8 @@ view_students() {
 delete_student() {
   read -p "Enter student ID to delete: " id
 
-  if grep -q "$id" students-list_1023.txt; then
-    sed -i "/$id/d" students-list_1023.txt
+  if grep -qE "^$id," students-list_1023.txt; then
+    sed -i "/^$id,/d" students-list_1023.txt
     echo "Student deleted successfully!"
   else
     echo "Error: Student with ID $id not found!"
@@ -37,21 +38,15 @@ delete_student() {
 update_student() {
   read -p "Enter student ID to update: " id
 
-  if grep -q "$id" students-list_1023.txt; then
-    new_email=""
-    new_age=""
+  if grep -qE "^$id," students-list_1023.txt; then
+    student=$(grep -m 1 -E "^$id," students-list_1023.txt);
+    old_email=$(echo $student | cut -d, -f2)
+    old_age=$(echo $student | cut -d, -f3)
 
     read -p "Enter new email (leave blank if unchanged): " new_email
-    if [[ -n "$new_email" ]]; then
-      old_email=$(grep -o ",[^,]*\$" students-list_1023.txt | grep -w "$id")
-      sed -i "s/$old_email/$new_email/" students-list_1023.txt
-    fi
-
     read -p "Enter new age (leave blank if unchanged): " new_age
-    if [[ -n "$new_age" ]]; then
-      old_age=$(grep -o ",[^,]*" students-list_1023.txt | grep -w "$id" | cut -d ',' -f 2)
-      sed -i "s/$old_age/$new_age/" students-list_1023.txt
-    fi
+
+    sed -i "s/^$id,.*/$id,${new_email:-$old_email},${new_age:-$old_age}/g" students-list_1023.txt
 
     echo "Student updated successfully!"
   else
