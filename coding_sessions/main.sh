@@ -7,7 +7,7 @@ add_student() {
   read -p "Enter student age: " age
   read -p "Enter student ID: " id
 
-  if ! grep -q "$id" students-list_1023.txt; then
+  if ! grep -qE "^$id," students-list_1023.txt; then
     echo "$id,$email,$age" >> students-list_1023.txt
     echo "Student added successfully!"
   else
@@ -26,7 +26,7 @@ view_students() {
 delete_student() {
   read -p "Enter student ID to delete: " id
 
-  if grep -q "$id" students-list_1023.txt; then
+  if grep -qE "^$id," students-list_1023.txt; then
     sed -i "/$id/d" students-list_1023.txt
     echo "Student deleted successfully!"
   else
@@ -37,7 +37,7 @@ delete_student() {
 update_student() {
   read -p "Enter student ID to update: " id
 
-  if grep -q "$id" students-list_1023.txt; then
+  if grep -qE "^$id," students-list_1023.txt; then
     new_email=""
     new_age=""
 
