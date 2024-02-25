@@ -38,20 +38,14 @@ update_student() {
   read -p "Enter student ID to update: " id
 
   if grep -qE "^$id," students-list_1023.txt; then
-    new_email=""
-    new_age=""
+    student=$(grep -m 1 -E "^$id," students-list_1023.txt);
+    old_email=$(echo $student | cut -d, -f2)
+    old_age=$(echo $student | cut -d, -f3)
 
     read -p "Enter new email (leave blank if unchanged): " new_email
-    if [[ -n "$new_email" ]]; then
-      old_email=$(grep -o ",[^,]*\$" students-list_1023.txt | grep -w "$id")
-      sed -i "s/$old_email/$new_email/" students-list_1023.txt
-    fi
-
     read -p "Enter new age (leave blank if unchanged): " new_age
-    if [[ -n "$new_age" ]]; then
-      old_age=$(grep -o ",[^,]*" students-list_1023.txt | grep -w "$id" | cut -d ',' -f 2)
-      sed -i "s/$old_age/$new_age/" students-list_1023.txt
-    fi
+
+    sed -i "s/^$id,.*/$id,${new_email:-$old_email},${new_age:-$old_age}/g" students-list_1023.txt
 
     echo "Student updated successfully!"
   else
