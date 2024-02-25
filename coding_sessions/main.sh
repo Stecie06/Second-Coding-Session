@@ -27,7 +27,7 @@ delete_student() {
   read -p "Enter student ID to delete: " id
 
   if grep -qE "^$id," students-list_1023.txt; then
-    sed -i "/$id/d" students-list_1023.txt
+    sed -i "/^$id,/d" students-list_1023.txt
     echo "Student deleted successfully!"
   else
     echo "Error: Student with ID $id not found!"
