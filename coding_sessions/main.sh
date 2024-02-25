@@ -8,7 +8,7 @@ add_student() {
   read -p "Enter student ID: " id
 
   if ! grep -q "$id" students-list_1023.txt; then
-    echo "$email,$age,$id" >> students-list_1023.txt
+    echo "$id,$email,$age" >> students-list_1023.txt
     echo "Student added successfully!"
   else
     echo "Error: Student with ID $id already exists!"
