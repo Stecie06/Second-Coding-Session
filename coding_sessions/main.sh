@@ -17,7 +17,8 @@ add_student() {
 
 view_students() {
   if [[ -f students-list_1023.txt ]]; then
-    cat students-list_1023.txt | tr ',' ' '
+    echo -e "ID\tStudent Name\t\tAge"
+    cat students-list_1023.txt | tr ',' '	'
   else
     echo "No students found."
   fi
